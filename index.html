@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>متجري الإلكتروني</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>متجري الإلكتروني</h1>
+    <input type="text" id="search" placeholder="ابحث عن منتج...">
+  </header>
+
+  <main id="product-list"></main>
+
+  <script src="products.js"></script>
+  <script>
+    const productList = document.getElementById('product-list');
+    const searchInput = document.getElementById('search');
+
+    function renderProducts(products) {
+      productList.innerHTML = '';
+      products.forEach(product => {
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p class="price">${product.price} ر.س</p>
+          <button>إضافة إلى السلة</button>
+        `;
+        productList.appendChild(div);
+      });
+    }
+
+    // البحث
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(searchTerm));
+      renderProducts(filtered);
+    });
+
+    // عرض المنتجات
+
+    renderProducts(products);
+  </script>
+
+</body>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>متجر إلكتروني</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>متجري</h1>
+    <input type="text" id="search" placeholder="ابحث عن منتج...">
+    <button id="view-cart">🛒 السلة (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <main id="product-list"></main>
+
+  <script src="products.js"></script>
+  <script>
+    const productList = document.getElementById('product-list');
+    const searchInput = document.getElementById('search');
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function updateCartCount() {
+      document.getElementById("cart-count").textContent = cart.length;
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        cart.push(product);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        alert("تمت إضافة المنتج إلى السلة!");
+      }
+    }
+
+    function renderProducts(productsToRender) {
+      productList.innerHTML = '';
+      productsToRender.forEach(product => {
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p class="price">${product.price} ر.س</p>
+          <button onclick="addToCart(${product.id})">إضافة إلى السلة</button>
+        `;
+        productList.appendChild(div);
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+      renderProducts(filtered);
+    }); document.getElementById("view-cart").addEventListener("click", () => {
+          if (cart.length === 0) {
+            alert("السلة فارغة.");
+            return;
+          }
+    let message = "🛒 محتويات السلة:\n\n";
+          cart.forEach((item, index) => {
+            message += ${index + 1}. ${item.name} - ${item.price} ر.س\n;
+          });
+          alert(message);
+        });
+    
+        renderProducts<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>متجر إلكتروني</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>متجري</h1>
+    <input type="text" id="search" placeholder="ابحث عن منتج...">
+    <button id="view-cart">🛒 السلة (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <main id="product-list"></main>
+
+  <script src="products.js"></script>
+  <script>
+    const productList = document.getElementById('product-list');
+    const searchInput = document.getElementById('search');
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function updateCartCount() {
+      document.getElementById("cart-count").textContent = cart.length;
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        cart.push(product);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        alert("تمت إضافة المنتج إلى السلة!");
+      }
+    }
+
+    function renderProducts(productsToRender) {
+      productList.innerHTML = '';
+      productsToRender.forEach(product => {
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <p class="price">${product.price} ر.س</p>
+          <button onclick="addToCart(${product.id})">إضافة إلى السلة</button>
+        `;
+        productList.appendChild(div);
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+      renderProducts(filtered);
+    });
+
+    document.getElementById("view-cart").addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("السلة فارغة.");
+        return;
+      }
+      let message = "🛒 محتويات السلة:\n\n";
+            cart.forEach((item, index) => {
+              message += ${index + 1}. ${item.name} - ${item.price} ر.س\n;
+            });
+            alert(message);
+          });
+      
+          renderProducts(products);
+          updateCartCount();
+        </script>
+      </body>
+      </html>
+      
